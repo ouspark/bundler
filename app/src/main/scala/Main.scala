@@ -1,4 +1,3 @@
-import module.reactstrap.Nav
 import org.scalajs.dom
 
 object Main {

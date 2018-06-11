@@ -1,7 +1,6 @@
+import japgolly.scalajs.react.ScalaComponent
 import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Resolution, Router, RouterConfigDsl, RouterCtl}
 import japgolly.scalajs.react.vdom.html_<^._
-import japgolly.scalajs.react.ScalaComponent
-import module.reactstrap.Nav
 
 object AppRouter {
 
