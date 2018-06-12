@@ -38,7 +38,7 @@ lazy val core = project.in(file("core"))
         "com.akkoid.mui.MuiRunner",
         (fullClasspath in (gen, Runtime)).value.files,
         List(
-          (npmUpdate in (gen, Compile)).value / "node_modules" / "@material-ui/core",
+          (npmUpdate in (gen, Compile)).value / "node_modules" / "material-ui",
           sourceManaged.value / "main"
         ) map (_.absolutePath),
         streams.value.log
@@ -69,8 +69,9 @@ lazy val core = project.in(file("core"))
 lazy val app = (project in file("app"))
   .dependsOn(core)
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
+  .settings(commonSettings, npmSettings, npmDevSettings)
   .settings(
-    name := "webpack-dev-server",
+    name := "app",
     scalaVersion := "2.12.4",
     scalaJSUseMainModuleInitializer := true,
     libraryDependencies ++= Seq(
@@ -78,14 +79,21 @@ lazy val app = (project in file("app"))
       "com.github.japgolly.scalajs-react" %%% "core" % "1.2.0",
       "com.github.japgolly.scalajs-react" %%% "extra" % "1.2.0",
     ),
-    webpackConfigFile := Some(baseDirectory.value / "webpack.config.js"),
-    (npmDevDependencies in Compile) ++= Seq(
-      "html-webpack-plugin" -> "3.0.6",
-      "react" -> "16.4.0",
-      "react-dom" -> "16.4.0",
-      "@material-ui/core" -> "1.2.1",
-      "material-ui" -> "0.20.0"
-    ),
+    artifactPath.in(Compile, fastOptJS) := ((crossTarget in (Compile, fastOptJS)).value /
+      ((moduleName in fastOptJS).value + "-opt.js")),
+    webpackResources :=
+      webpackResources.value +++
+        PathFinder(Seq(baseDirectory.value / "images", baseDirectory.value / "index.html")) ** "*.*",
+    webpackConfigFile in (Compile, fastOptJS) := Some(
+      baseDirectory.value / "webpack.config.dev.js"),
+    jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv,
+    webpackBundlingMode := BundlingMode.LibraryOnly(),
+//    (npmDevDependencies in Compile) ++= Seq(
+//      "html-webpack-plugin" -> "3.0.6",
+//      "react" -> "16.4.0",
+//      "react-dom" -> "16.4.0",
+//      "material-ui" -> "0.20.0"
+//    ),
     webpackDevServerPort := 7357,
     version in webpack := "4.1.1",
     version in startWebpackDevServer := "3.1.1"
@@ -118,7 +126,35 @@ lazy val commonSettings = Seq(
 
 lazy val npmGenSettings = Seq(
   npmDependencies.in(Compile) := Seq(
-    "@material-ui/core" -> "1.2.1"
+    "material-ui" -> "0.20.0"
+  )
+)
+
+lazy val npmSettings = Seq(
+  npmDependencies.in(Compile) := Seq(
+    "lodash" -> "4.17.4",
+    "material-ui" -> "0.20.0",
+//    "html-webpack-plugin" -> "3.0.6",
+    "react" -> "16.4.0",
+    "react-dom" -> "16.4.0"
+  )
+)
+
+lazy val npmDevSettings = Seq(
+  npmDevDependencies.in(Compile) := Seq(
+    "css-loader"           -> "0.28.9",
+//    "expose-loader"        -> "0.7.4",
+//    "file-loader"          -> "1.1.6",
+//    "gulp-decompress"      -> "2.0.1",
+//    "imagemin"             -> "5.3.1",
+//    "image-webpack-loader" -> "4.0.0",
+//    "less"                 -> "2.7.3",
+//    "less-loader"          -> "4.0.5",
+    "lodash"               -> "4.17.4",
+//    "node-libs-browser"    -> "2.1.0",
+//    "react-hot-loader"     -> "3.1.3",
+    "style-loader"         -> "0.19.0",
+    "url-loader"           -> "0.6.2"
   )
 )
 

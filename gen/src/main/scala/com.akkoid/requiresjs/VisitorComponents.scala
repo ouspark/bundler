@@ -60,6 +60,7 @@ case class VisitorComponents(n: FunctionNode)
                       ternary.getTrueExpression.getExpression match {
                         case o: ObjectNode ⇒
                           ret(CompName(a.getBase.asInstanceOf[IdentNode].getName)) = o
+                        case _ =>
                       }
                     }
                     else {
@@ -67,10 +68,12 @@ case class VisitorComponents(n: FunctionNode)
                       ternary.getFalseExpression.getExpression match {
                         case o: ObjectNode ⇒
                           ret(CompName(a.getBase.asInstanceOf[IdentNode].getName)) = o
+                        case _ =>
                       }
                     }
                 }
             }
+          case _ =>
         }
       case other =>
         ()

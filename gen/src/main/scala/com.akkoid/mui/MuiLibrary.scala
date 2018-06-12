@@ -11,7 +11,9 @@ case class MuiLibrary(base: Path) extends Library {
     Seq(
       base,
       base / 'styles,
-      base / 'internal / 'SwitchBase
+      base / 'internal / 'EnhancedButton,
+      base / 'internal / 'EnhancedSwitch,
+      base / 'TextField / 'EnhancedTextarea
     )
 
   override val prefixOpt    = Some("Mui")
@@ -22,127 +24,93 @@ case class MuiLibrary(base: Path) extends Library {
   override val packageName  = "com.akkoid.components.materialui"
 
   case object Internal {
-    val SwitchBase = ComponentDef(CompName("SwitchBase"))
+    val AppCanvas          = ComponentDef(CompName("AppCanvas"))
+    val BeforeAfterWrapper = ComponentDef(CompName("BeforeAfterWrapper"))
+    val EnhancedButton     = ComponentDef(CompName("EnhancedButton"))
+    val EnhancedSwitch     = ComponentDef(CompName("EnhancedSwitch"))
+    val Overlay            = ComponentDef(CompName("Overlay"))
+    val CircleRipple       = ComponentDef(CompName("CircleRipple"))
+    val FocusRipple        = ComponentDef(CompName("FocusRipple"))
+    val TouchRipple        = ComponentDef(CompName("TouchRipple"))
+    val RenderToLayer      = ComponentDef(CompName("RenderToLayer"))
+    val EnhancedTextarea   = ComponentDef(CompName("EnhancedTextarea"))
+    val Tooltip            = ComponentDef(CompName("Tooltip"))
   }
 
-  val ButtonBase = ComponentDef(CompName("ButtonBase"))
-  val IconButton = ComponentDef(CompName("IconButton"), Option(ButtonBase))
-  val Input      = ComponentDef(CompName("Input"))
-  val Drawer     = ComponentDef(CompName("Drawer"))
-  val FormLabel  = ComponentDef(CompName("FormLabel"))
-  val FormGroup  = ComponentDef(CompName("FormGroup"))
-  val FormControl= ComponentDef(CompName("FormControl"))
-  val List_      = ComponentDef(CompName("List"))
-  val ListItem   = ComponentDef(CompName("ListItem"))
-  val Paper      = ComponentDef(CompName("Paper"))
-//  val Portal     = ComponentDef(CompName("Portal"))
-//  val Modal      = ComponentDef(CompName("Modal"), Option(Portal))
-//  val Popover    = ComponentDef(CompName("Popover"), Option(Modal))
-  val TableCell  = ComponentDef(CompName("TableCell"))
-  val Typography = ComponentDef(CompName("Typography"))
-
+  val DropDownMenu = ComponentDef(CompName("DropDownMenu"))
+  val List_        = ComponentDef(CompName("List"))
+  val ListItem     = ComponentDef(CompName("ListItem"), Some(Internal.EnhancedButton))
+  val Menu         = ComponentDef(CompName("Menu"), Some(List_))
+  val Paper        = ComponentDef(CompName("Paper"))
+  val RadioButton  = ComponentDef(CompName("RadioButton"), Some(Internal.EnhancedSwitch))
+  val TextField = ComponentDef(CompName("TextField"),
+    Some(Internal.EnhancedTextarea),
+    domeTypeOpt = Some(DomInput))
 
   val components: Seq[ComponentDef] =
     Seq(
       ComponentDef(CompName("AppBar"), Option(Paper)),
+      ComponentDef(CompName("AutoComplete"), Some(TextField)),
       ComponentDef(CompName("Avatar"), multipleChildren = false),
-      ComponentDef(CompName("Backdrop")),
       ComponentDef(CompName("Badge")),
-      ComponentDef(CompName("BottomNavigation")),
-      ComponentDef(CompName("BottomNavigationAction"), Option(ButtonBase)),
-      ComponentDef(CompName("Button"), Option(ButtonBase)),
-      ButtonBase,
       ComponentDef(CompName("Card"), Some(Paper)),
       ComponentDef(CompName("CardActions")),
-      ComponentDef(CompName("CardContent")),
+      //      ComponentDef(CompName("CardExpandable"), None),
       ComponentDef(CompName("CardHeader")),
       ComponentDef(CompName("CardMedia")),
-      ComponentDef(CompName("Checkbox")),
-      ComponentDef(CompName("Chip")),
+      ComponentDef(CompName("CardText")),
+      ComponentDef(CompName("CardTitle")),
+      ComponentDef(CompName("Checkbox"), Some(Internal.EnhancedSwitch)),
+      ComponentDef(CompName("Chip"), Some(Internal.EnhancedButton)),
       ComponentDef(CompName("CircularProgress")),
-//      ComponentDef(CompName("ClickAwayListener"), Option(EventListener),
-//      ComponentDef(CompName("Collapse"), Option(Transition)),
-      ComponentDef(CompName("CssBaseline")),
-//      ComponentDef(CompName("Dialog"), Option(Modal)),
-      ComponentDef(CompName("DialogActions")),
-      ComponentDef(CompName("DialogContent")),
-      ComponentDef(CompName("DialogContentText"), Option(Typography)),
-      ComponentDef(CompName("DialogTitle")),
+      ComponentDef(CompName("DatePicker"), Option(TextField), domeTypeOpt = Some(DomInput)),
+      ComponentDef(CompName("Dialog"), None),
       ComponentDef(CompName("Divider")),
-      Drawer,
-      ComponentDef(CompName("ExpansionPanel"), Option(Paper)),
-      ComponentDef(CompName("ExpansionPanelActions")),
-      ComponentDef(CompName("ExpansionPanelDetails")),
-      ComponentDef(CompName("ExpansionPanelSummary"), Option(ButtonBase)),
-//      ComponentDef(CompName("Fade"), Option(Transition)),
-      FormControl,
-      ComponentDef(CompName("FormControlLabel")),
-      FormGroup,
-      ComponentDef(CompName("FormHelperText")),
-      FormLabel,
-      ComponentDef(CompName("Grid")),
+      ComponentDef(CompName("Drawer"), None),
+      DropDownMenu,
+      ComponentDef(CompName("FlatButton"), Some(Internal.EnhancedButton)),
+      ComponentDef(CompName("FloatingActionButton"), Some(Internal.EnhancedButton)),
+      ComponentDef(CompName("FontIcon")),
       ComponentDef(CompName("GridList")),
-      ComponentDef(CompName("GridListTile")),
-      ComponentDef(CompName("GridListTileBar")),
-//      ComponentDef(CompName("Grow"), Option(Transition)),
-      ComponentDef(CompName("Hidden")),
-      ComponentDef(CompName("Icon")),
-      IconButton,
-      Input,
-      ComponentDef(CompName("InputAdornment")),
-      ComponentDef(CompName("InputLabel"), Option(FormLabel)),
+      ComponentDef(CompName("GridTile")),
+      ComponentDef(CompName("IconButton"), Some(Internal.EnhancedButton)),
+      ComponentDef(CompName("IconMenu"), Option(Menu)),
       ComponentDef(CompName("LinearProgress")),
       List_,
       ListItem,
-      ComponentDef(CompName("ListItemAvatar")),
-      ComponentDef(CompName("ListItemIcon")),
-      ComponentDef(CompName("ListItemSecondaryAction")),
-      ComponentDef(CompName("ListItemText")),
-      ComponentDef(CompName("ListSubheader")),
-//      ComponentDef(CompName("Menu"), Option(Popover)),
+      Menu,
       ComponentDef(CompName("MenuItem"), Option(ListItem)),
-      ComponentDef(CompName("MenuList"), Option(List_)),
-      ComponentDef(CompName("MobileStepper"), Option(Paper)),
-//      Modal,
       ComponentDef(CompName("MuiThemeProvider")),
-      ComponentDef(CompName("NativeSelect"), Option(Input)),
       Paper,
-//      Popover,
-//      Portal,
-      ComponentDef(CompName("Radio")),
-      ComponentDef(CompName("RadioGroup"), Option(FormGroup)),
-      ComponentDef(CompName("RootRef")),
-      ComponentDef(CompName("Select"), Option(Input)),
-//      ComponentDef(CompName("Slide"), Option(Transition)),
+      ComponentDef(CompName("Popover")),
+      //      ComponentDef(CompName("PopoverAnimationVertical")),
+      RadioButton,
+      ComponentDef(CompName("RadioButtonGroup"), Some(RadioButton)),
+      ComponentDef(CompName("RaisedButton"), Some(Internal.EnhancedButton)),
+      ComponentDef(CompName("RefreshIndicator")),
+      ComponentDef(CompName("SelectField"), Option(DropDownMenu)),
+      ComponentDef(CompName("Slider")),
       ComponentDef(CompName("Snackbar")),
-      ComponentDef(CompName("SnackbarContent"), Option(Paper)),
       ComponentDef(CompName("Step")),
-      ComponentDef(CompName("StepButton"), Option(ButtonBase)),
-      ComponentDef(CompName("StepConnector")),
       ComponentDef(CompName("StepContent")),
-      ComponentDef(CompName("StepIcon")),
       ComponentDef(CompName("StepLabel")),
-      ComponentDef(CompName("Stepper"), Option(Paper)),
-      ComponentDef(CompName("SvgIcon")),
-      ComponentDef(CompName("SwipeableDrawer"), Option(Drawer)),
-      ComponentDef(CompName("Switch")),
-      ComponentDef(CompName("SwitchBase"), Option(IconButton)),
-      ComponentDef(CompName("Tab"), Option(ButtonBase)),
+      ComponentDef(CompName("Stepper")),
+      ComponentDef(CompName("Subheader")),
+      ComponentDef(CompName("Tab"), Some(Internal.EnhancedButton)),
       ComponentDef(CompName("Table")),
       ComponentDef(CompName("TableBody")),
-      TableCell,
       ComponentDef(CompName("TableFooter")),
-      ComponentDef(CompName("TableHead")),
-      ComponentDef(CompName("TablePagination"), Option(TableCell)),
+      ComponentDef(CompName("TableHeader")),
+      ComponentDef(CompName("TableHeaderColumn")),
       ComponentDef(CompName("TableRow")),
-      ComponentDef(CompName("TableSortLabel"), Option(ButtonBase)),
+      ComponentDef(CompName("TableRowColumn")),
       ComponentDef(CompName("Tabs")),
-      ComponentDef(CompName("TextField"), Option(FormControl)),
+      TextField,
+      ComponentDef(CompName("TimePicker"), Option(TextField), domeTypeOpt = Some(DomInput)),
+      ComponentDef(CompName("Toggle"), Some(Internal.EnhancedSwitch)),
       ComponentDef(CompName("Toolbar")),
-      ComponentDef(CompName("Tooltip")),
-      ComponentDef(CompName("TouchRipple")),
-      Typography,
-      ComponentDef(CompName("Zoom")),
-
+      ComponentDef(CompName("ToolbarGroup")),
+      ComponentDef(CompName("ToolbarSeparator")),
+      ComponentDef(CompName("ToolbarTitle"))
     )
 }

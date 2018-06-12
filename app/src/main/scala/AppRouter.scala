@@ -1,6 +1,9 @@
+import com.akkoid.components.materialui.{MuiAppBar, MuiMuiThemeProvider}
 import japgolly.scalajs.react.ScalaComponent
 import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Resolution, Router, RouterConfigDsl, RouterCtl}
 import japgolly.scalajs.react.vdom.html_<^._
+
+import scala.scalajs.js
 
 object AppRouter {
 
@@ -11,9 +14,7 @@ object AppRouter {
 
     val component = ScalaComponent.builder
       .static("Home Page")(
-
-        <.div(
-          "Scalajs React Home Page")
+        MuiMuiThemeProvider()(MuiAppBar(title = js.defined("Title"))())
       )
       .build
 

@@ -32,8 +32,8 @@ case class VisitorExports(n: FunctionNode) extends VisitorHelper[FunctionNode, S
                 ret = Left(node)
               case (Right(existing), Some(node), false) ⇒
                 existing += node
-              case other ⇒
-                ???
+              case _ =>
+                ()
             }
         }
     }
